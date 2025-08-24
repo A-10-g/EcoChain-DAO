@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoChain DAO</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Authentication Modal -->
+        <div id="authModal" class="modal">
+            <div class="modal-content">
+                <div class="auth-header">
+                    <h2>🌱 Welcome to EcoChain DAO</h2>
+                    <p>A decentralized environmental data and governance platform</p>
+                </div>
+                
+                <div class="auth-tabs">
+                    <button class="auth-tab active" onclick="showAuthTab('login')">Login</button>
+                    <button class="auth-tab" onclick="showAuthTab('register')">Register</button>
+                </div>
+                
+                <!-- Login Form -->
+                <div id="login" class="auth-content active">
+                    <h3>Login to Your Account</h3>
+                    <div class="form-group">
+                        <label for="loginPrincipal">Principal ID:</label>
+                        <input type="text" id="loginPrincipal" placeholder="Enter your Principal ID" />
+                    </div>
+                    <button class="btn btn-primary" onclick="loginUser()">Login</button>
+                </div>
+                
+                <!-- Register Form -->
+                <div id="register" class="auth-content">
+                    <h3>Create New Account</h3>
+                    <div class="form-group">
+                        <label for="registerName">Your Name:</label>
+                        <input type="text" id="registerName" placeholder="Enter your full name" />
+                    </div>
+                    <button class="btn btn-primary" onclick="registerNewUser()">Create Account</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Application -->
+        <div id="mainApp" style="display: none;">
+            <!-- Header -->
+            <header class="header">
+                <div class="container">
+                    <h1 class="header__title">🌱 EcoChain DAO</h1>
+                    <div class="header__stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Your Balance:</span>
+                            <span class="stat-value" id="userBalance">0 ECO</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Principal:</span>
+                            <span class="stat-value" id="userPrincipal">Not Set</span>
+                        </div>
+                        <button class="btn btn-secondary btn-small" onclick="logout()">Logout</button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Layout -->
+            <div class="main-layout">
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <div class="user-card">
+                        <h3>User Stats</h3>
+                        <div class="user-stats">
+                            <div class="stat">
+                                <span class="stat-number" id="userProposals">0</span>
+                                <span class="stat-text">Proposals Created</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number" id="userVotes">0</span>
+                                <span class="stat-text">Votes Cast</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number" id="userDataSubmissions">0</span>
+                                <span class="stat-text">Data Submitted</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="system-stats">
+                        <h3>System Stats</h3>
+                        <div class="system-info">
+                            <div class="info-item">
+                                <span id="totalUsers">1</span>
+                                <span>Total Users</span>
+                            </div>
+                            <div class="info-item">
+                                <span id="totalProposals">0</span>
+                                <span>Total Proposals</span>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Main Content -->
+                <main class="main-content">
+                    <!-- Tabs -->
+                    <div class="tabs">
+                        <button class="tab active" onclick="showTab('dashboard')">Dashboard</button>
+                        <button class="tab" onclick="showTab('profile')">Profile</button>
+                        <button class="tab" onclick="showTab('submit-data')">Submit Data</button>
+                        <button class="tab" onclick="showTab('validate-data')">Validate Data</button>
+                        <button class="tab" onclick="showTab('proposals')">Proposals</button>
+                        <button class="tab" onclick="showTab('vote')">Vote</button>
+                        <button class="tab" onclick="showTab('transfer')">Transfer</button>
+                    </div>
+
+                    <!-- Tab Content -->
+                    <div class="tab-content-wrapper">
+                        <!-- Dashboard Tab -->
+                        <div id="dashboard" class="tab-content active">
+                            <div class="content-card">
+                                <h2>📊 Welcome to EcoChain DAO</h2>
+                                <p>You're now part of a decentralized environmental data and governance platform.</p>
+
+                                <div class="dashboard-grid">
+                                    <div class="dashboard-card">
+                                        <div class="card-icon">📊</div>
+                                        <h4>Submit Data</h4>
+                                        <p>Share environmental data and earn 50 ECO tokens</p>
+                                        <button class="btn btn-primary" onclick="showTab('submit-data')">Get Started</button>
+                                    </div>
+                                    <div class="dashboard-card">
+                                        <div class="card-icon">✅</div>
+                                        <h4>Validate Data</h4>
+                                        <p>Review submissions and earn 25 ECO tokens</p>
+                                        <button class="btn btn-primary" onclick="showTab('validate-data')">Start Validating</button>
+                                    </div>
+                                    <div class="dashboard-card">
+                                        <div class="card-icon">📝</div>
+                                        <h4>Create Proposals</h4>
+                                        <p>Propose governance changes (requires 1,000+ ECO)</p>
+                                        <button class="btn btn-primary" onclick="showTab('proposals')">Create Proposal</button>
+                                    </div>
+                                    <div class="dashboard-card">
+                                        <div class="card-icon">🗳️</div>
+                                        <h4>Vote on Proposals</h4>
+                                        <p>Participate in governance and earn 10 ECO</p>
+                                        <button class="btn btn-primary" onclick="showTab('vote')">Vote Now</button>
+                                    </div>
+                                    <div class="dashboard-card">
+                                        <div class="card-icon">💸</div>
+                                        <h4>Transfer Tokens</h4>
+                                        <p>Send ECO tokens to other users</p>
+                                        <button class="btn btn-primary" onclick="showTab('transfer')">Transfer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Simplified Profile Tab -->
+                        <div id="profile" class="tab-content">
+                            <div class="content-card">
+                                <h2>👤 User Profile</h2>
+                                
+                                <!-- Simplified Profile Header -->
+                                <div class="profile-header-simple">
+                                    <div class="profile-avatar-large">
+                                        <div class="avatar-circle-large">
+                                            <span id="profileInitials">U</span>
+                                        </div>
+                                        <div class="profile-pulse"></div>
+                                    </div>
+                                    <div class="profile-info-center">
+                                        <h3 id="profileName" class="profile-name-large">User Name</h3>
+                                        <p class="profile-member-badge">🌱 DAO Member</p>
+                                    </div>
+                                </div>
+
+                                <!-- Essential Info Cards -->
+                                <div class="profile-essentials">
+                                    <div class="profile-card balance-card">
+                                        <div class="card-header">
+                                            <div class="card-icon balance-icon">💰</div>
+                                            <h4>Token Balance</h4>
+                                        </div>
+                                        <div class="card-value">
+                                            <span id="profileBalance" class="balance-amount">1,000</span>
+                                            <span class="balance-currency">ECO</span>
+                                        </div>
+                                        <div class="card-progress">
+                                            <div class="progress-bar">
+                                                <div class="progress-fill" id="balanceProgress"></div>
+                                            </div>
+                                            <small>Building your eco-impact</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="profile-card identity-card">
+                                        <div class="card-header">
+                                            <div class="card-icon identity-icon">🔐</div>
+                                            <h4>Your Identity</h4>
+                                        </div>
+                                        <div class="card-content">
+                                            <div class="principal-display">
+                                                <label>Principal ID:</label>
+                                                <div class="principal-id-fancy" id="profilePrincipalId">
+                                                    Loading...
+                                                </div>
+                                            </div>
+                                            <div class="identity-actions">
+                                                <button class="btn btn-primary btn-copy" onclick="copyPrincipalId()">
+                                                    📋 Copy ID
+                                                </button>
+                                                <button class="btn btn-secondary btn-backup" onclick="downloadBackup()">
+                                                    💾 Download Backup
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Interactive Stats -->
+                                <div class="profile-activity-summary">
+                                    <h4>Your DAO Activity</h4>
+                                    <div class="activity-stats">
+                                        <div class="activity-stat" onclick="showTab('submit-data')">
+                                            <div class="stat-icon-interactive">📊</div>
+                                            <div class="stat-value" id="profileDataSubmissions">0</div>
+                                            <div class="stat-label">Data Submitted</div>
+                                            <div class="stat-hover">Click to submit more →</div>
+                                        </div>
+                                        <div class="activity-stat" onclick="showTab('vote')">
+                                            <div class="stat-icon-interactive">🗳️</div>
+                                            <div class="stat-value" id="profileVotes">0</div>
+                                            <div class="stat-label">Votes Cast</div>
+                                            <div class="stat-hover">Click to vote →</div>
+                                        </div>
+                                        <div class="activity-stat" onclick="showTab('proposals')">
+                                            <div class="stat-icon-interactive">📝</div>
+                                            <div class="stat-value" id="profileProposals">0</div>
+                                            <div class="stat-label">Proposals Created</div>
+                                            <div class="stat-hover">Click to create →</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Welcome Message -->
+                                <div class="profile-welcome">
+                                    <div class="welcome-icon">🌟</div>
+                                    <h5>Welcome to the EcoChain Community!</h5>
+                                    <p>Use your ECO tokens to participate in environmental governance and make a positive impact on our planet.</p>
+                                    <div class="quick-actions">
+                                        <button class="btn btn-success" onclick="showTab('dashboard')">
+                                            🏠 Go to Dashboard
+                                        </button>
+                                        <button class="btn btn-primary" onclick="showTab('transfer')">
+                                            💸 Transfer Tokens
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Enhanced Submit Data Tab -->
+                        <div id="submit-data" class="tab-content">
+                            <div class="content-card">
+                                <h2>📊 Submit Environmental Data</h2>
+                                <p>Submit structured environmental data to earn 50 ECO tokens and contribute to environmental monitoring.</p>
+                                
+                                <form class="structured-form" onsubmit="submitStructuredData(event)">
+                                    <!-- Data Type Selection -->
+                                    <div class="form-group">
+                                        <label for="dataType">Data Type *</label>
+                                        <select id="dataType" required onchange="updateDataFields()">
+                                            <option value="">Select data type...</option>
+                                            <option value="air_quality">Air Quality</option>
+                                            <option value="water_quality">Water Quality</option>
+                                            <option value="soil_analysis">Soil Analysis</option>
+                                            <option value="weather">Weather Data</option>
+                                            <option value="noise_pollution">Noise Pollution</option>
+                                            <option value="biodiversity">Biodiversity Count</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Dynamic Fields Based on Data Type -->
+                                    <div class="form-row">
+                                        <div class="form-group half-width">
+                                            <label for="dataValue">Value *</label>
+                                            <input type="number" id="dataValue" step="0.01" placeholder="e.g., 108" required>
+                                        </div>
+                                        <div class="form-group half-width">
+                                            <label for="dataUnit">Unit *</label>
+                                            <input type="text" id="dataUnit" placeholder="e.g., AQI, pH, mg/L" required>
+                                        </div>
+                                    </div>
+
+                                    <!-- Location Information -->
+                                    <div class="form-group">
+                                        <label for="location">Location *</label>
+                                        <input type="text" id="location" placeholder="e.g., Delhi, Mumbai, New York" required>
+                                    </div>
+
+                                    <!-- Coordinates (Optional) -->
+                                    <div class="form-row">
+                                        <div class="form-group half-width">
+                                            <label for="latitude">Latitude (optional)</label>
+                                            <input type="number" id="latitude" step="0.000001" placeholder="e.g., 40.7829">
+                                        </div>
+                                        <div class="form-group half-width">
+                                            <label for="longitude">Longitude (optional)</label>
+                                            <input type="number" id="longitude" step="0.000001" placeholder="e.g., -73.9654">
+                                        </div>
+                                    </div>
+
+                                    <!-- Device/Source Information -->
+                                    <div class="form-group">
+                                        <label for="deviceId">Device ID (optional)</label>
+                                        <input type="text" id="deviceId" placeholder="e.g., sensor_001, weather_station_nyc">
+                                    </div>
+
+                                    <!-- Additional Metadata -->
+                                    <div class="form-group">
+                                        <label>Additional Metadata</label>
+                                        <div class="metadata-container">
+                                            <div class="metadata-info">
+                                                <small>Add relevant context like measurement method, calibration info, weather conditions, etc.</small>
+                                                <button type="button" class="btn-add-field" onclick="addMetadataField()">+ Add Field</button>
+                                            </div>
+                                            <div id="metadataFields"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Measurement Time -->
+                                    <div class="form-group">
+                                        <label for="measurementTime">Measurement Time *</label>
+                                        <input type="datetime-local" id="measurementTime" required>
+                                    </div>
+
+                                    <!-- Form Actions -->
+                                    <div class="form-actions">
+                                        <button type="button" class="btn btn-secondary" onclick="resetDataForm()">Reset</button>
+                                        <button type="submit" class="btn btn-primary">Submit Data (+50 ECO)</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Enhanced Validate Data Tab -->
+                        <div id="validate-data" class="tab-content">
+                            <div class="content-card">
+                                <h2>✅ Validate Data Submissions</h2>
+                                <p>Review and validate environmental data submitted by community members to earn 25 ECO tokens.</p>
+                                
+                                <div class="validation-filters">
+                                    <div class="filter-group">
+                                        <label for="filterDataType">Filter by Data Type:</label>
+                                        <select id="filterDataType" onchange="filterValidationData()">
+                                            <option value="">All Types</option>
+                                            <option value="air_quality">Air Quality</option>
+                                            <option value="water_quality">Water Quality</option>
+                                            <option value="soil_analysis">Soil Analysis</option>
+                                            <option value="weather">Weather Data</option>
+                                            <option value="noise_pollution">Noise Pollution</option>
+                                            <option value="biodiversity">Biodiversity Count</option>
+                                        </select>
+                                    </div>
+                                    <div class="filter-group">
+                                        <label for="filterLocation">Filter by Location:</label>
+                                        <input type="text" id="filterLocation" placeholder="Enter location..." onkeyup="filterValidationData()">
+                                    </div>
+                                </div>
+                                
+                                <div id="unvalidatedDataList" class="data-list">
+                                    <!-- Unvalidated data will be populated here -->
+                                </div>
+                                
+                                <div id="noDataMessage" class="no-data-message" style="display: none;">
+                                    <div class="no-data-icon">📊</div>
+                                    <h4>No Data Awaiting Validation</h4>
+                                    <p>All submitted data has been validated, or no data has been submitted yet.</p>
+                                    <button class="btn btn-primary" onclick="showTab('submit-data')">Submit New Data</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Enhanced Proposals Tab -->
+                        <div id="proposals" class="tab-content">
+                            <div class="content-card">
+                                <h2>📝 Create Governance Proposal</h2>
+                                <p>Create detailed governance proposals to improve the EcoChain DAO (requires 1,000+ ECO tokens).</p>
+                                
+                                <form class="structured-form" onsubmit="createStructuredProposal(event)">
+                                    <!-- Proposal Type -->
+                                    <div class="form-group">
+                                        <label for="proposalType">Proposal Type *</label>
+                                        <select id="proposalType" required>
+                                            <option value="">Select proposal type...</option>
+                                            <option value="reward_change">Reward Structure Change</option>
+                                            <option value="governance">Governance Update</option>
+                                            <option value="technical">Technical Improvement</option>
+                                            <option value="community">Community Initiative</option>
+                                            <option value="validation">Validation Process</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Proposal Title -->
+                                    <div class="form-group">
+                                        <label for="proposalTitle">Proposal Title *</label>
+                                        <input type="text" id="proposalTitle" placeholder="Brief, descriptive title for your proposal" required maxlength="100">
+                                    </div>
+
+                                    <!-- Problem Statement -->
+                                    <div class="form-group">
+                                        <label for="problemStatement">Problem Statement *</label>
+                                        <textarea id="problemStatement" placeholder="What problem does this proposal solve?" required rows="4"></textarea>
+                                    </div>
+
+                                    <!-- Proposed Solution -->
+                                    <div class="form-group">
+                                        <label for="proposedSolution">Proposed Solution *</label>
+                                        <textarea id="proposedSolution" placeholder="Detailed description of your proposed solution" required rows="6"></textarea>
+                                    </div>
+
+                                    <!-- Impact Assessment -->
+                                    <div class="form-row">
+                                        <div class="form-group half-width">
+                                            <label for="expectedImpact">Expected Impact</label>
+                                            <select id="expectedImpact">
+                                                <option value="low">Low Impact</option>
+                                                <option value="medium">Medium Impact</option>
+                                                <option value="high">High Impact</option>
+                                                <option value="critical">Critical Impact</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group half-width">
+                                            <label for="implementationCost">Implementation Cost</label>
+                                            <select id="implementationCost">
+                                                <option value="none">No Cost</option>
+                                                <option value="low">Low Cost</option>
+                                                <option value="medium">Medium Cost</option>
+                                                <option value="high">High Cost</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Timeline -->
+                                    <div class="form-group">
+                                        <label for="timeline">Implementation Timeline</label>
+                                        <textarea id="timeline" placeholder="Proposed timeline for implementation (optional)" rows="3"></textarea>
+                                    </div>
+
+                                    <!-- Additional Details -->
+                                    <div class="form-group">
+                                        <label for="additionalDetails">Additional Details</label>
+                                        <textarea id="additionalDetails" placeholder="Any additional context, references, or supporting information" rows="4"></textarea>
+                                    </div>
+
+                                    <!-- Voting Duration -->
+                                    <div class="form-group">
+                                        <label for="votingDuration">Voting Duration</label>
+                                        <select id="votingDuration">
+                                            <option value="3">3 Days</option>
+                                            <option value="7" selected>7 Days</option>
+                                            <option value="14">14 Days</option>
+                                            <option value="30">30 Days</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Form Actions -->
+                                    <div class="form-actions">
+                                        <button type="button" class="btn btn-secondary" onclick="resetProposalForm()">Reset</button>
+                                        <button type="submit" class="btn btn-primary">Create Proposal (1,000+ ECO Required)</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Vote Tab -->
+                        <div id="vote" class="tab-content">
+                            <div class="content-card">
+                                <h2>🗳️ Vote on Proposals</h2>
+                                <p>Vote on active proposals to earn 10 ECO tokens per vote.</p>
+                                
+                                <div id="proposalsList" class="proposals-list">
+                                    <!-- Active proposals will be populated here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Transfer Tab -->
+                        <div id="transfer" class="tab-content">
+                            <div class="content-card">
+                                <h2>💸 Transfer ECO Tokens</h2>
+                                <p>Send ECO tokens to other registered users using their Principal ID.</p>
+                                
+                                <div class="form-group">
+                                    <label for="recipientId">Recipient Principal ID:</label>
+                                    <input type="text" id="recipientId" placeholder="Enter recipient's Principal ID (e.g., abc12-def34-ghi56...)" />
+                                    <small>Enter the full Principal ID of the user you want to send tokens to.</small>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="transferAmount">Amount to Transfer:</label>
+                                    <input type="number" id="transferAmount" min="1" placeholder="Enter amount..." />
+                                </div>
+                                
+                                <div class="transfer-info">
+                                    <p><strong>Your Current Balance:</strong> <span id="currentBalanceTransfer">0 ECO</span></p>
+                                    <p><strong>Your Principal ID:</strong> <span id="yourPrincipalId">Not Set</span></p>
+                                </div>
+                                
+                                <button class="btn btn-primary" onclick="transferTokens()">Transfer Tokens</button>
+                                <button class="btn btn-secondary" onclick="showAllUsers()">View All Users</button>
+                                <div id="transfer-status" class="status-message"></div>
+                                
+                                <!-- User List (hidden by default) -->
+                                <div id="usersList" class="users-list" style="display: none;">
+                                    <h4>Registered Users:</h4>
+                                    <div id="usersListContent"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "canisters": {
+    "ecochain_dao_backend": {
+      "type": "rust",
+      "package": "ecochain_dao_backend",
+      "candid": "src/ecochain_dao_backend/ecochain_dao_backend.did"
+    },
+    "ecochain_dao_frontend": {
+      "dependencies": ["ecochain_dao_backend"],
+      "source": ["src/ecochain_dao_frontend/src/"],
+      "type": "assets",
+      "frontend": {}
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}

@@ -1,0 +1,10 @@
+[workspace]
+resolver = "2"
+members = [
+    "src/ecochain_dao_backend",
+]
+
+[workspace.dependencies]
+candid = "0.10"
+ic-cdk = "0.13"
+ic-stable-structures = "0.6"
