@@ -1,5 +1,4 @@
-// =================== ENHANCED ECOCHAIN DAO - MULTI-TAB TESTING VERSION ===================
-// This version allows different users in different tabs while maintaining enhanced transfer functionality
+
 
 // Simple authentication system
 let currentUser = null;
