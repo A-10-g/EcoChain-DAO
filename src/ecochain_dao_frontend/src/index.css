@@ -1,6 +1,6 @@
 :root {
-  --primary-color: #2c5530;
-  --primary-light: #4a7c59;
+  --primary-color: #299033;
+  --primary-light: #6edf90;
   --primary-dark: #1e3a21;
   --secondary-color: #6c757d;
   --success-color: #28a745;
@@ -347,7 +347,7 @@ textarea {
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background: #5a6268;
+  background: #59ab44;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
 }
