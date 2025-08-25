@@ -1,8 +1,7 @@
 #!/bin/bash
-# EcoChain DAO Quick Fix Script
-# This script will fix your authentication issues
+# EcoChain DAO Quick Script
 
-echo "🔧 Starting EcoChain DAO Fix..."
+echo "🔧 Starting EcoChain DAO "
 
 # Step 1: Stop dfx
 echo "1. Stopping dfx..."
